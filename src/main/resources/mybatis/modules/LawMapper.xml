@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.decisionanalysis.project.modules.law.mapper.LawMapper">
+
+    <resultMap type="LawEntity" id="asd">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="areaName" column="area_name"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+    <select id="selectLawList" parameterType="LawEntity" resultMap="asd">
+        select
+        a.id
+        ,a.title
+        ,a.area_name
+        ,a.time
+        from
+        app_law_info a
+        where 1=1
+        <!-- 数据范围过滤 -->
+
+    </select>
+</mapper>
