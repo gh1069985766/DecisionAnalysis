@@ -4,23 +4,209 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.decisionanalysis.project.modules.law.mapper.LawMapper">
 
-    <resultMap type="LawEntity" id="asd">
+    <resultMap type="LawEntity" id="law">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
-        <result property="areaName" column="area_name"/>
-        <result property="time" column="time"/>
+        <result property="areaName" column="region"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="keyWords" column="keyWords"/>
+        <result property="similarity" column="similarity"/>
+        <result property="rank" column="rank"/>
     </resultMap>
 
-    <select id="selectLawList" parameterType="LawEntity" resultMap="asd">
-        select
-        a.id
-        ,a.title
-        ,a.area_name
-        ,a.time
-        from
-        app_law_info a
-        where 1=1
-        <!-- 数据范围过滤 -->
 
+    <select id="selectLawList" parameterType="Map" resultMap="law">
+        SELECT
+        b.id,
+        b.title,
+        DATE_FORMAT(b.publish_date, '%Y-%m-%d') as 'publish_date',
+        <if test="bigType == 'rc'">
+            b.rc_key_words as 'keyWords',
+        </if>
+        <if test="bigType == 'cx'">
+            b.cx_key_words as 'keyWords',
+        </if>
+        <if test="bigType == 'cy'">
+            b.cy_key_words as 'keyWords',
+        </if>
+        b.rc_key_words,
+        b.region,
+        b.rank,
+        <if test="bigType == 'rc' and (type == null or type == '')">
+            a.rencai as 'similarity'
+        </if>
+        <if test="type == 'support'">
+            a.support as 'similarity'
+        </if>
+        <if test="type == 'officeAllowance'">
+            a.office_allowance as 'similarity'
+        </if>
+        <if test="type == 'dailyAllowance'">
+            a.daily_allowance as 'similarity'
+        </if>
+        <if test="type == 'recruitment'">
+            a.recruitment as 'similarity'
+        </if>
+        <if test="type == 'remuneration'">
+            a.remuneration as 'similarity'
+        </if>
+
+        <if test="bigType == 'cx' and (type == null or type == '')">
+            a.innovation as 'similarity'
+        </if>
+        <if test="type == 'developSubsidy'">
+            a.develop_subsidy as 'similarity'
+        </if>
+        <if test="type == 'industry'">
+            a.industry as 'similarity'
+        </if>
+        <if test="type == 'service'">
+            a.service as 'similarity'
+        </if>
+        <if test="type == 'manufacturing'">
+            a.manufacturing as 'similarity'
+        </if>
+        <if test="type == 'revenue'">
+            a.revenue as 'similarity'
+        </if>
+        <if test="type == 'landPrice'">
+            a.land_price as 'similarity'
+        </if>
+        <if test="type == 'rental'">
+            a.rental as 'similarity'
+        </if>
+        <if test="bigType == 'cy' and (type == null or type == '')">
+            a.domain as 'similarity'
+        </if>
+        FROM
+        <if test="bigType == 'rc'">
+            rc_feature_dict_dd a
+        </if>
+        <if test="bigType == 'cx'">
+            cx_feature_dict_dd a
+        </if>
+        <if test="bigType == 'cy'">
+            cy_feature_dict_dd a
+        </if>
+        LEFT JOIN policy_dd b ON
+
+        a.file_id = b.id
+        <if test="areaName != null and areaName != ''">
+            and b.region like concat('%'+#{areaName}+'%')
+        </if>
+        WHERE 1=1
+        <if test="bigType == 'rc' and (type == null or type == '')">
+            and a.rencai > 0
+        </if>
+        <if test="type == 'support'">
+            and a.support >0
+        </if>
+        <if test="type == 'officeAllowance'">
+            and  a.office_allowance >0
+        </if>
+        <if test="type == 'dailyAllowance'">
+            and  a.daily_allowance >0
+        </if>
+        <if test="type == 'recruitment'">
+            and  a.recruitment >0
+        </if>
+        <if test="type == 'remuneration'">
+            and a.remuneration >0
+        </if>
+
+        <if test="bigType == 'cx' and (type == null or type == '')">
+            and a.innovation > 0
+        </if>
+        <if test="type == 'developSubsidy'">
+            and a.develop_subsidy >0
+        </if>
+        <if test="type == 'industry'">
+            and a.industry >0
+        </if>
+        <if test="type == 'service'">
+            and  a.service >0
+        </if>
+        <if test="type == 'manufacturing'">
+            and  a.manufacturing >0
+        </if>
+        <if test="type == 'revenue'">
+            and  a.revenue >0
+        </if>
+        <if test="type == 'landPrice'">
+            and a.land_price >0
+        </if>
+        <if test="type == 'rental'">
+            and a.rental >0
+        </if>
+        <if test="bigType == 'cy' and (type == null or type == '')">
+            and  a.domain > 0
+        </if>
+
+        <if test="title != null and title != ''">
+            and a.title like concat('%'+#{title}+'%')
+        </if>
+        <if test="orderBy == 'date'">
+            order  by b.publish_date desc
+        </if>
+        <if test="orderBy == 'similarity'">
+            order  by
+            <if test="bigType == 'rc' and (type == null or type == '')">
+                 a.rencai
+            </if>
+            <if test="type == 'support'">
+                 a.support
+            </if>
+            <if test="type == 'officeAllowance'">
+                 a.office_allowance
+            </if>
+            <if test="type == 'dailyAllowance'">
+                 a.daily_allowance
+            </if>
+            <if test="type == 'recruitment'">
+                 a.recruitment
+            </if>
+            <if test="type == 'remuneration'">
+                a.remuneration
+            </if>
+
+            <if test="bigType == 'cx' and (type == null or type == '')">
+                a.innovation
+            </if>
+            <if test="type == 'developSubsidy'">
+                a.develop_subsidy
+            </if>
+            <if test="type == 'industry'">
+                a.industry
+            </if>
+            <if test="type == 'service'">
+                a.service
+            </if>
+            <if test="type == 'manufacturing'">
+                a.manufacturing
+            </if>
+            <if test="type == 'revenue'">
+                a.revenue
+            </if>
+            <if test="type == 'landPrice'">
+                a.land_price
+            </if>
+            <if test="type == 'rental'">
+                a.rental
+            </if>
+            <if test="bigType == 'cy' and (type == null or type == '')">
+                a.domain
+            </if>
+            desc
+        </if>
     </select>
+
+    <select id="selectTitleAndPathAndKeyById" parameterType="Map" resultType="Map">
+        select
+        a.title,
+        a.body_path,
+        concat(a.rc_key_words,',',a.cx_key_words,',',a.cy_key_words) as 'keyWords'
+        from policy_dd a
+        where a.id = #{id}
+    </select>
+
 </mapper>

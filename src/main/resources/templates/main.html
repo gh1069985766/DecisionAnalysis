@@ -17,40 +17,6 @@
 		}
 	</style>
 	<script th:src="@{/js/jquery.min.js}"></script>
-	<script>
-        function addTabByChild(url, index, name) {
-            window.parent.window.menuItemByChild(url, index, name, true);
-            // window.parent.window.menuItemByChild("/one/showOne", "1", "余姚市安全生产监督管理局行政处罚决定书送达公告", true);
-        }
-
-        var divArr = [0,1,2];
-        $(function () {
-            $("#data1").hide()
-            $("#data2").hide()
-
-            $('.layui-col-md12 .button-3d').click(function(){
-                console.log("$(this).index()"+$(this).index())
-				var buttonIndex = $(this).index();
-                $(this).addClass('active').siblings('.button-3d').removeClass('active')
-				$.each(divArr, function (item, index) {
-                    console.log("item" + item);
-                    console.log("index" + index);
-                    console.log("$(this).index()"+$(this).index())
-					if (index == buttonIndex) {
-					    console.log("123132")
-                        $("#data"+buttonIndex).show()
-					} else {
-                        console.log("12313111112")
-                        $("#data"+index).hide()
-					}
-                })
-
-
-                // myChart.setOption(optionArr[$(this).index()], true);
-            })
-        })
-
-	</script>
 </head>
 
 <body>
@@ -67,240 +33,48 @@
 	<div class="layui-row layui-col-space15">
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header"><span style="font-weight: bold">创业扶持</span><a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header"><span style="font-weight: bold">创业扶持</span><a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=rc&type=support','1','创业扶持')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td><a href="#" onclick="addTabByChild('/one/showOne', '1', '余姚市安全生产监督管理局行政处罚决定书送达公告')">余姚市安全生产监督管理局行政处罚决定书送达公告</a></td>
-							<td>余姚</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="start" lay-filter="start">
+
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">办公补贴<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">办公补贴<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=rc&type=officeAllowance','2','办公补贴')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="office" lay-filter="office">
+
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">生活津贴<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">生活津贴<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=rc&type=dailyAllowance','3','生活津贴')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="live" lay-filter="live">
+
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">人才招聘<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">人才招聘<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=rc&type=recruitment','4','人才招聘')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="talent" lay-filter="talent">
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">薪金补助<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">薪金补助<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=rc&type=remuneration','5','薪金补助')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="salary" lay-filter="salary">
 					</table>
 				</div>
 			</div>
@@ -311,48 +85,10 @@
 	<div class="layui-row layui-col-space15">
 		<div class="layui-col-md12">
 			<div class="layui-card">
-				<div class="layui-card-header">研发补助<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">研发补助<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=cx&type=developSubsidy','6','研发补助')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="research" lay-filter="research">
+
 					</table>
 				</div>
 			</div>
@@ -364,288 +100,56 @@
 	<div class="layui-row layui-col-space15">
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">工业<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">工业<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=cy&type=industry','1','产业')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="industrial" lay-filter="industrial">
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">服务业<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">服务业<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=cy&type=service','1','产业')">更多>></a></div>
 				<div class="layui-card-body" onclick="addTabByChild()">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="service" lay-filter="service">
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">高端制造<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">高端制造<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=cy&type=manufacturing','1','产业')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="highEnd" lay-filter="highEnd">
+
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">税收<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">税收<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=cy&type=revenue','1','产业')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="tax" lay-filter="tax">
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">地价<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">地价<a href="#" style="margin-left: 75%;" onclick="addTabByChild('/law/toList?bigType=cy&type=landPrice','1','产业')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="landPrice" lay-filter="landPrice">
+
 					</table>
 				</div>
 			</div>
 		</div>
 		<div class="layui-col-md6">
 			<div class="layui-card">
-				<div class="layui-card-header">租金<a href="#" style="margin-left: 75%" onclick="addTabByChild('/law/toList','1','创业扶持')">更多>></a></div>
+				<div class="layui-card-header">租金<a href="#" style="margin-left: 75%" onclick="addTabByChild('/law/toList?bigType=cy&type=rental','1','产业')">更多>></a></div>
 				<div class="layui-card-body">
-					<table lay-skin="line" lay-even="true" class="layui-table" lay-filter="demo">
-						<thead>
-						<tr>
-							<th width="60%" lay-data="{field:'username', width:200}">标题</th>
-							<th width="15%" lay-data="{field:'experience', width:80, sort:true}">区域</th>
-							<th width="25%" lay-data="{field:'sign', width:80}">时间</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-31</td>
-						</tr>
-						<tr style="font-weight: bold">
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-30</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						<tr>
-							<td>康复有补贴，浙江出台意见减轻这类家庭负担</td>
-							<td>上虞</td>
-							<td>2018-10-25</td>
-						</tr>
-						</tbody>
+					<table id="rent" lay-filter="rent">
 					</table>
 				</div>
 			</div>
@@ -654,5 +158,6 @@
 </div>
 
 <script th:src="@{/layui2.4.3/layui.all.js}"></script>
+<script th:src="@{/ruoyi/js/main.js}"></script>
 </body>
 </html>

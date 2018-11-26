@@ -15,6 +15,9 @@ import com.decisionanalysis.framework.web.page.PageDomain;
 import com.decisionanalysis.framework.web.page.TableDataInfo;
 import com.decisionanalysis.framework.web.page.TableSupport;
 import com.decisionanalysis.project.system.user.domain.User;
+import sun.security.jgss.HttpCaller;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * web层通用数据处理

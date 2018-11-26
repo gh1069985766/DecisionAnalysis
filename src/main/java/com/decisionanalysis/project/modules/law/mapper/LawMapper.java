@@ -3,6 +3,7 @@ package com.decisionanalysis.project.modules.law.mapper;
 import com.decisionanalysis.project.modules.law.entity.LawEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Des:
@@ -13,5 +14,7 @@ import java.util.List;
 
 public interface LawMapper {
 
-    List<LawEntity> selectLawList(LawEntity lawEntity);
+    List<LawEntity> selectLawList(Map map);
+
+    Map<String, String> selectTitleAndPathAndKeyById(Map map);
 }

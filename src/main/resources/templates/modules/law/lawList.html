@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="notice-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            标题：<input type="text" name="title"/>
+                        </li>
+                        <li>
+                            区域：<input type="text" name="areaName"/>
+                        </li>
+                        <li>
+                            大类：<select name="bigType" th:with="dtype=${@dict.getType('law_BigType')}">
+                            <option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${bigType}"></option>
+                        </select>
+                        </li>
+                        <li>
+                            小类：<select name="type" th:with="dtype=${@dict.getType('law_type')}">
+                            <option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${type}"></option>
+                        </select>
+                        </li>
+                        <li>
+                            排序：<select name="orderBy">
+                            <option value="date">时间</option>
+                            <option value="similarity">相似度</option>
+                        </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:notice:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:notice:remove')}]];
+    var types = [[${@dict.getType('sys_notice_type')}]];
+    var datas = [[${@dict.getType('sys_notice_status')}]];
+    var prefix = ctx + "law";
+
+    function addTabByChild(url, index, name) {
+        window.parent.window.menuItemByChild(url, index, name, true);
+        // window.parent.window.menuItemByChild("/one/showOne", "1", "余姚市安全生产监督管理局行政处罚决定书送达公告", true);
+    }
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            modalName: "",
+            search: false,
+            columns: [
+                {
+                    field: 'title',
+                    title: '标题',
+                    formatter: function (value, row, index) {
+                        return '<a href="#" style="font-weight: bold" onclick="addTabByChild(\'/law/showContent/'+row.id+'\',\''+row.id+'\',\''+value+'\')">' + value + '</a>';
+                    }
+                },
+                {
+                    field: 'areaName',
+                    title: '区域'
+                },
+                {
+                    field: 'keyWords',
+                    title: '关键词',
+                    align: 'center'
+                },
+                {
+                    field: 'similarity',
+                    title: '相似度',
+                    align: 'center'
+                },
+                {
+                    field: 'publishDate',
+                    title: '发布时间'
+                },
+                {
+                    field: 'rank',
+                    title: '政策文件类型'
+                }
+            ],
+            // 查询条件
+            queryParams: function(params) {
+                return {
+                    // 传递参数查询参数
+                    pageSize:       params.limit,
+                    pageNum:        params.offset / params.limit + 1,
+                    searchValue:    params.search,
+                    orderByColumn:  params.sort,
+                    isAsc:          params.order,
+                    title: $('[name=title]').val(),
+                    areaName: $('[name=areaName]').val(),
+                    bigType: $('[name=bigType]').val(),
+                    type: $('[name=type]').val(),
+                    orderBy: $('[name=orderBy]').val()
+                };
+            },
+        };
+        $.table.init(options);
+        // $.table.search()
+    });
+</script>
+</body>
+</html>

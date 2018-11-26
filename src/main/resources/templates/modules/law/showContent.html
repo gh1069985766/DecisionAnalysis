@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>详细内容</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/layui2.4.3/css/layui.css" th:href="@{/layui2.4.3/css/layui.css}" rel="stylesheet"/>
+    <link href="../static/css/buttons.css" th:href="@{/css/buttons.css}" rel="stylesheet"/>
+    <!--<link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>-->
+    <!--<link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>-->
+    <!--<link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>-->
+    <style>
+        .button-primary.active {
+            color: #0d2f47;
+        }
+    </style>
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<head th:include="include :: header"></head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" >
+    <h2 align="center" class="title" th:utext="${title}"></h2>
+</fieldset>
+
+<input id="contentStr" type="hidden" th:value="${body}">
+<div id="content">
+    <!--<table align="center" border="0" cellpadding="0" cellspacing="0" class="ZjYhN019 ZjYhN020" style="table-layout: fixed; word-break: break-all;overflow: hidden;" width="95%"><tr><td><div class="TRS_Editor"><style type="text/css">.TRS_Editor P{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor DIV{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor TD{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor TH{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor SPAN{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor FONT{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor UL{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor LI{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor A{line-height:2;font-family:宋体;font-size:10.5pt;}</style><div class="TRS_Editor"><p align="center"><style type="text/css">.TRS_Editor P{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor DIV{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor TD{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor TH{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor SPAN{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor FONT{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor UL{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor LI{line-height:2;font-family:宋体;font-size:10.5pt;}.TRS_Editor A{line-height:2;font-family:宋体;font-size:10.5pt;}</style><font face="Times New Roman, serif"><font size="4"><span lang="en-US"><font face="楷体_GB2312, monospace"><font size="4">（2017年1月12日政协第十届杭州市余杭区委员会常务委员会第二十二次会议通过）</font></font></span></font></font></p><p align="center"> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">经区委提名，按照《政协章程》有关规定，政协第</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">十</span></font></font><font face="仿宋_GB2312"><font size="4">届杭州市余杭区委员会常务委员会第二十</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">二</span></font></font><font face="仿宋_GB2312"><font size="4">次会议协商决定： </font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4">任命：</font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">周前武同志</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">为</span></font></font><font face="仿宋_GB2312"><font size="4">区政协提案委员会主任；</font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">朱根祥同志</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">为</span></font></font><font face="仿宋_GB2312"><font size="4">区政协社会法制和港澳台侨委员会主任；</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN"> </span></font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">江</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN"> </span></font></font><font face="仿宋_GB2312"><font size="4">筠同志</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">为</span></font></font><font face="仿宋_GB2312"><font size="4">区政协经济科技委员会副主任（主持工作）</font></font></font></font><font face="Times New Roman, serif"><font size="4"><span lang="en-US"><font face="仿宋_GB2312"><font size="4"><span lang="en-US">;</span></font></font></span></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">胡晓秋同志</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">为</span></font></font><font face="仿宋_GB2312"><font size="4">区政协委员工作委员会副主任（主持工作）</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">。</span></font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4">免去：</font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">高</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN"> </span></font></font><font face="仿宋_GB2312"><font size="4">峰同志的区政协社会法制和港澳台侨委员会主任职务；</font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">黄国林同志的区政协提案委员会主任职务</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">；</span></font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">李晓亮同志的区政协经济科技委员会主任职务</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">；</span></font></font></font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4">周前武同志的区政协委员工作委员会主任职务；</font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4">朱根祥同志的区政协城建和人口资源环境委员会主任职务；</font></font> </p><p align="justify">　　<font face="仿宋_GB2312"><font size="4"><font face="仿宋_GB2312"><font size="4">胡晓秋同志的区政协办公室副主任职务</font></font><font face="仿宋_GB2312"><font size="4"><span lang="zh-CN">。</span></font></font></font></font> </p><p align="right">　　<font face="仿宋_GB2312"><font size="4"><font color="#000000">政协杭州市余杭区委员会</font></font></font></p><p align="right"><font color="#000000"><font face="Times New Roman, serif"><font size="4"><span lang="en-US"><span lang="en-US">2017</span></span></font></font></font><font face="仿宋_GB2312"><font size="4"><font color="#000000"><span lang="zh-CN">年</span></font></font></font><font face="Times New Roman, serif"><font size="4"><span lang="en-US"><font color="#000000"><span lang="en-US">1</span></font></span></font></font><font face="仿宋_GB2312"><font size="4"><font color="#000000"><span lang="zh-CN">月</span></font></font></font><font face="Times New Roman, serif"><font size="4"><span lang="en-US"><font color="#000000"><span lang="en-US">12</span></font></span></font></font><font face="仿宋_GB2312"><font size="4"><font color="#000000"><span lang="zh-CN">日</span></font></font></font></p></div></div> <table width="100%">&lt;!&ndash;&ndash;&gt;</table></td></tr></table>-->
+</div>
+<div th:include="include :: footer"></div>
+<script>
+    // layui.use('table', function(){
+    //    var table = layui.table;
+    //
+    //    //转换静态表格
+    //    table.init('demo', {
+    //        height: 315 //设置高度
+    //        ,limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+    //        //支持所有基础参数
+    //    });
+    // })
+
+    var text = '[[${keyWords}]]';
+    $(function () {
+        var keyArr = text.split(",");
+        var contentStr = $("#contentStr").val();
+        $.each(keyArr, function (index, item) {
+            if (item != '' && item != undefined) {
+                var reg = new RegExp("(" + item + ")", "g")
+                contentStr = contentStr.replace(reg,'<span style="background-color: #d8be63">'+item+'</span>')
+                // contentStr = contentStr.replace(reg,'<span style="font-weight: bold">'+item+'</span>')
+                // contentStr = contentStr.replace(reg,'<span style="color: #cc130f;font-weight: bold">'+item+'</span>')
+            }
+        })
+        console.log(contentStr)
+        $('#content').html(contentStr)
+    })
+</script>
+</body>
+</html>
