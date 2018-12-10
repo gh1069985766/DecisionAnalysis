@@ -65,7 +65,7 @@
 	<!--
 		<logger name="java.sql" level="debug" />
 		<logger name="org.springframework.jdbc" level="debug" />
-	-->
+    -->
 
 	<logger name="com.decisionanalysis" level="info" />
 

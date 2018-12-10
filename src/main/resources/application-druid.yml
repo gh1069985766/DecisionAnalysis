@@ -6,14 +6,16 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://localhost:3306/analysis_sys?useSSL=false&characterEncoding=utf8
+#                url: jdbc:mysql://localhost:3306/analysis_sys?useSSL=false&characterEncoding=utf8
+                url: jdbc:mysql://localhost:43306/analysis_sys?useSSL=false&characterEncoding=utf8
                 username: root
                 password: gzf123
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
                 enabled: true
-                url: jdbc:mysql://localhost:3306/crawler?useSSL=false&characterEncoding=utf8
+#                url: jdbc:mysql://localhost:3306/crawler?useSSL=false&characterEncoding=utf8
+                url: jdbc:mysql://localhost:43306/crawler?useSSL=false&characterEncoding=utf8
                 username: root
                 password: gzf123
             # 初始连接数

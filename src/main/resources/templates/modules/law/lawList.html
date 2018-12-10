@@ -17,15 +17,15 @@
                             区域：<input type="text" name="areaName"/>
                         </li>
                         <li>
-                            大类：<select name="bigType" th:with="dtype=${@dict.getType('law_BigType')}">
+                            大类：<select name="bigType" onchange="selectChange()" th:with="dtype=${@dict.getType('law_BigType')}">
                             <option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"
                                     th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${bigType}"></option>
                         </select>
                         </li>
                         <li>
-                            小类：<select name="type" th:with="dtype=${@dict.getType('law_type')}">
-                            <option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${type}"></option>
+                            小类：<select id="typess" name="type" th:with="dtype=${@dict.getType('law_type')}">
+                            <!--<option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"-->
+                                    <!--th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${type}"></option>-->
                         </select>
                         </li>
                         <li>
@@ -54,8 +54,12 @@
 <script th:inline="javascript">
     var editFlag = [[${@permission.hasPermi('system:notice:edit')}]];
     var removeFlag = [[${@permission.hasPermi('system:notice:remove')}]];
-    var types = [[${@dict.getType('sys_notice_type')}]];
-    var datas = [[${@dict.getType('sys_notice_status')}]];
+
+
+    var types = [[${type}]];
+    var datas = [[${@dict.getType('law_type')}]];
+
+
     var prefix = ctx + "law";
 
     function addTabByChild(url, index, name) {
@@ -64,6 +68,37 @@
     }
 
     $(function () {
+        var bigTypeVal = $("[name=bigType] option:selected").val();
+
+        var optionStr = "";
+        $.each(datas, function (index, item) {
+            if (bigTypeVal == 'rc' && item.dictSort <= 5) {
+                if (types == item.dictValue) {
+                    optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
+                } else {
+                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+                }
+
+            }
+            if (bigTypeVal == 'cx' && item.dictSort == 6) {
+                if (types == item.dictValue) {
+                    optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
+                } else {
+                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+                }
+            }
+            if (bigTypeVal == 'cy' && item.dictSort >= 7) {
+                if (types == item.dictValue) {
+                    optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
+                } else {
+                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+                }
+            }
+        });
+        $("#typess").html(optionStr)
+
+
+
         var options = {
             url: prefix + "/list",
             modalName: "",
@@ -119,6 +154,26 @@
         $.table.init(options);
         // $.table.search()
     });
+
+    function selectChange() {
+        var bigTypeVal = $("[name=bigType] option:selected").val();
+
+        var optionStr = "";
+        $.each(datas, function (index, item) {
+            if (bigTypeVal == 'ry' && item.dictSort <= 5) {
+
+                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+
+            }
+            if (bigTypeVal == 'cx' && item.dictSort == 6) {
+                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+            }
+            if (bigTypeVal == 'cy' && item.dictSort >= 7) {
+                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+            }
+        });
+        $("#typess").html(optionStr)
+    }
 </script>
 </body>
 </html>

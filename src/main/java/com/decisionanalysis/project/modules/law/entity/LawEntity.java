@@ -1,6 +1,7 @@
 package com.decisionanalysis.project.modules.law.entity;
 
 import com.decisionanalysis.framework.web.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -48,7 +49,7 @@ public class LawEntity extends BaseEntity {
     /**
      * 发布时间
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date publishDate;
 
     /**
