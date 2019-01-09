@@ -43,7 +43,8 @@ public class LawController extends BaseController {
 
 
     /**
-     *
+     * 现在已经改为配置式
+     * 具体类型在 各个enum中
      * @param areaName 区域
      * @param title 标题
      * @param keyWords 关键词
@@ -83,6 +84,13 @@ public class LawController extends BaseController {
     }
 
 
+    /**
+     * 首页分类
+     * @param keyColumn 关键字字段
+     * @param similarityColumn 相似度字段
+     * @param tableName 表名
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/selectLawListByDynamic")
     public TableDataInfo selectLawListByDynamic(@RequestParam(value = "keyColumn") String keyColumn,
@@ -106,6 +114,21 @@ public class LawController extends BaseController {
 
     }
 
+
+    /**
+     * 所有列表
+     * @param region 区域
+     * @param title 标题
+     * @param rank 文件类型
+     * @param bigType 大类
+     * @param type 小类
+     * @param startDate 发布开始日期
+     * @param endDate 发布结束日期
+     * @param orderBy 排序字段
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/selectAllListByCondition")
     public Map selectAllListByCondition(@RequestParam(value = "areaName", required = false) String region,
