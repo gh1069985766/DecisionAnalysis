@@ -14,6 +14,18 @@
         <result property="rank" column="rank"/>
     </resultMap>
 
+    <resultMap type="LawAllEntity" id="lawAll">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="region" column="region"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="rcKeyWords" column="rc_key_words"/>
+        <result property="cxKeyWords" column="cx_key_words"/>
+        <result property="cyKeyWords" column="cy_key_words"/>
+        <result property="similarity" column="similarity"/>
+        <result property="rank" column="rank"/>
+    </resultMap>
+
 
     <select id="selectLawList" parameterType="Map" resultMap="law">
         SELECT * from (
@@ -151,17 +163,17 @@
             <if test="bigType == 'rc' and (type == null or type == '')">a.rencai
             </if>
             <if test="type == 'support'">
-                 a.support
+                a.support
             </if>
             <if test="type == 'officeAllowance'">
                 a.
                 office_allowance
             </if>
             <if test="type == 'dailyAllowance'">
-                 a.daily_allowance
+                a.daily_allowance
             </if>
             <if test="type == 'recruitment'">
-                 a.recruitment
+                a.recruitment
             </if>
             <if test="type == 'remuneration'">
                 a.remuneration
@@ -211,8 +223,149 @@
         a.title,
         a.body_path,
         concat(a.rc_key_words,',',a.cx_key_words,',',a.cy_key_words) as 'keyWords'
+        ,a.url
         from policy_dd a
         where a.id = #{id}
+    </select>
+
+    <select id="selectLawListByDynamic" parameterType="Map" resultMap="law" statementType="STATEMENT">
+        SELECT
+        b.${keyColumn} as 'keyWords'
+        ,b.title
+        ,a.region
+        ,b.rank
+        ,b.publish_date
+        ,a.${similarityColumn} as 'similarity'
+        ,b.id
+        FROM ${tableName} a
+        left join policy_dd b on a.file_id = b.id
+        where a.${similarityColumn} > 0
+        <if test="orderByType == 'date' or orderByType == '' or orderByType == null">
+            order by b.publish_date desc
+        </if>
+        <if test="orderByType == 'similarity'">
+            order by a.${similarityColumn} desc
+        </if>
+        limit 6
+    </select>
+
+    <select id="selectAllListByDynamic" parameterType="Map" resultMap="lawAll" statementType="STATEMENT">
+select tt.* from (
+        SELECT
+        a.id
+        ,a.title
+        ,a.region
+        ,a.cx_key_words
+        ,a.cy_key_words
+        ,a.rc_key_words
+        ,a.rank
+        ,a.publish_date
+        <if test="type == 'rc'">
+            ,rc.${similarityColumn} as 'similarity'
+        </if>
+        <if test="type == 'cx'">
+            ,cx.${similarityColumn} as 'similarity'
+        </if>
+        <if test="type == 'cy'">
+            ,cy.${similarityColumn} as 'similarity'
+        </if>
+        <if test="type == '' or type == null">
+            ,0.0 as 'similarity'
+        </if>
+
+        FROM policy_dd a
+        LEFT JOIN cx_feature_dict_dd cx ON a.id = cx.file_id
+        LEFT JOIN cy_feature_dict_dd cy ON a.id = cy.file_id
+        LEFT JOIN rc_feature_dict_dd rc ON a.id = rc.file_id
+        where 1=1
+        <if test="type == 'rc'">
+            and rc.${similarityColumn} > 0
+        </if>
+        <if test="type == 'cx'">
+            and cx.${similarityColumn} > 0
+        </if>
+        <if test="type == 'cy'">
+            and cy.${similarityColumn} > 0
+        </if>
+        <if test="region != null and region != ''">
+            and a.region like concat('%',${region},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and a.title like concat('%',${title},'%')
+        </if>
+        <if test="startDate != null and startDate !=''">
+            and a.publish_date >= ${startDate}
+        </if>
+        <if test="endDate != null and endDate !=''">
+            and a.publish_date &lt;= ${endDate}
+        </if>
+        ) tt
+        <if test="orderByType == 'date' or orderByType == '' or orderByType == null">
+            order by tt.publish_date desc
+        </if>
+        <if test="orderByType == 'similarity'">
+            order by tt.similarity desc
+        </if>
+        Limit ${pageStart}, ${pageSize}
+    </select>
+
+    <select id="selectAllListByDynamicTotal" parameterType="Map" resultType="int" statementType="STATEMENT">
+        select count(1) from (
+        SELECT
+        a.id
+        ,a.title
+        ,a.region
+        ,a.cx_key_words
+        ,a.cy_key_words
+        ,a.rc_key_words
+        ,a.rank
+        ,a.publish_date
+        <if test="type == 'rc'">
+            ,rc.${similarityColumn} as 'similarity'
+        </if>
+        <if test="type == 'cx'">
+            ,cx.${similarityColumn} as 'similarity'
+        </if>
+        <if test="type == 'cy'">
+            ,cy.${similarityColumn} as 'similarity'
+        </if>
+        <if test="type == '' or type == null">
+            ,0.0 as 'similarity'
+        </if>
+
+        FROM policy_dd a
+        LEFT JOIN cx_feature_dict_dd cx ON a.id = cx.file_id
+        LEFT JOIN cy_feature_dict_dd cy ON a.id = cy.file_id
+        LEFT JOIN rc_feature_dict_dd rc ON a.id = rc.file_id
+        where 1=1
+        <if test="type == 'rc'">
+            and rc.${similarityColumn} > 0
+        </if>
+        <if test="type == 'cx'">
+            and cx.${similarityColumn} > 0
+        </if>
+        <if test="type == 'cy'">
+            and cy.${similarityColumn} > 0
+        </if>
+        <if test="region != null and region != ''">
+            and a.region like concat('%',${region},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and a.title like concat('%',${title},'%')
+        </if>
+        <if test="startDate != null and startDate !=''">
+            and a.publish_date >= ${startDate}
+        </if>
+        <if test="endDate != null and endDate !=''">
+            and a.publish_date &lt;= ${endDate}
+        </if>
+        ) tt
+        <if test="orderByType == 'date' or orderByType == '' or orderByType == null">
+            order by tt.publish_date desc
+        </if>
+        <if test="orderByType == 'similarity'">
+            order by tt.similarity desc
+        </if>
     </select>
 
 </mapper>

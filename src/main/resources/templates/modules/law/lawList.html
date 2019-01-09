@@ -18,6 +18,7 @@
                         </li>
                         <li>
                             大类：<select name="bigType" onchange="selectChange()" th:with="dtype=${@dict.getType('law_BigType')}">
+                            <option value=""></option>
                             <option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"
                                     th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${bigType}"></option>
                         </select>
@@ -27,6 +28,12 @@
                             <!--<option th:each="dict : ${dtype}" th:text="${dict.dictLabel}"-->
                                     <!--th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${type}"></option>-->
                         </select>
+                        </li>
+                        <li class="select-time">
+                            <label>发布时间： </label>
+                            <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="startDate"/>
+                            <span>-</span>
+                            <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="endDate"/>
                         </li>
                         <li>
                             排序：<select name="orderBy">
@@ -72,7 +79,7 @@
 
         var optionStr = "";
         $.each(datas, function (index, item) {
-            if (bigTypeVal == 'rc' && item.dictSort <= 5) {
+            if (bigTypeVal == 'rc' && item.dictSort <= 8) {
                 if (types == item.dictValue) {
                     optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
                 } else {
@@ -80,14 +87,14 @@
                 }
 
             }
-            if (bigTypeVal == 'cx' && item.dictSort == 6) {
+            if (bigTypeVal == 'cx' && item.dictSort <= 11 && item.dictSort >= 9) {
                 if (types == item.dictValue) {
                     optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
                 } else {
                     optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
                 }
             }
-            if (bigTypeVal == 'cy' && item.dictSort >= 7) {
+            if (bigTypeVal == 'cy' && item.dictSort <= 22 && item.dictSort >= 12) {
                 if (types == item.dictValue) {
                     optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
                 } else {
@@ -100,7 +107,7 @@
 
 
         var options = {
-            url: prefix + "/list",
+            url: prefix + "/selectAllListByCondition",
             modalName: "",
             search: false,
             columns: [
@@ -112,13 +119,27 @@
                     }
                 },
                 {
-                    field: 'areaName',
+                    field: 'region',
                     title: '区域'
                 },
                 {
-                    field: 'keyWords',
+                    field: 'rcKeyWords',
                     title: '关键词',
-                    align: 'center'
+                    formatter: function (value, row, index) {
+                        var str = "";
+                        if (value != null && value != '') {
+                            str += value
+                        }
+                        if (row.cxKeyWords != null && row.cxKeyWords != '') {
+                            str += ',';
+                            str += row.cxKeyWords;
+                        }
+                        if (row.cyKeyWords != null && row.cyKeyWords != '') {
+                            str += ',';
+                            str += row.cyKeyWords;
+                        }
+                        return str;
+                    }
                 },
                 {
                     field: 'similarity',
@@ -147,7 +168,9 @@
                     areaName: $('[name=areaName]').val(),
                     bigType: $('[name=bigType]').val(),
                     type: $('[name=type]').val(),
-                    orderBy: $('[name=orderBy]').val()
+                    orderBy: $('[name=orderBy]').val(),
+                    startDate: $('[name=startDate]').val(),
+                    endDate: $('[name=endDate]').val()
                 };
             },
         };
@@ -160,15 +183,15 @@
 
         var optionStr = "";
         $.each(datas, function (index, item) {
-            if (bigTypeVal == 'rc' && item.dictSort <= 5) {
+            if (bigTypeVal == 'rc' && item.dictSort <= 8) {
 
                     optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
 
             }
-            if (bigTypeVal == 'cx' && item.dictSort == 6) {
+            if (bigTypeVal == 'cx' && item.dictSort <= 11 && item.dictSort >= 9) {
                     optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
             }
-            if (bigTypeVal == 'cy' && item.dictSort >= 7) {
+            if (bigTypeVal == 'cy' && item.dictSort <= 22 && item.dictSort >= 12) {
                     optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
             }
         });
