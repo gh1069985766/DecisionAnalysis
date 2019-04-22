@@ -35,12 +35,12 @@
                             <span>-</span>
                             <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="endDate"/>
                         </li>
-                        <li>
-                            排序：<select name="orderBy">
-                            <option value="date">时间</option>
-                            <option value="similarity">相似度</option>
-                        </select>
-                        </li>
+                        <!--<li>-->
+                            <!--排序：<select name="orderBy">-->
+                            <!--<option value="date">时间</option>-->
+                            <!--<option value="similarity">相似度</option>-->
+                        <!--</select>-->
+                        <!--</li>-->
                         <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
                                     class="fa fa-search"></i>&nbsp;搜索</a>
@@ -67,6 +67,11 @@
     var datas = [[${@dict.getType('law_type')}]];
 
 
+    var rcSimilaryNameArr =  ['创业扶持', '办公补贴', '生活', '招聘补助', '薪金', '住房', '创新', '人才'];
+    var cxSimilaryNameArr =  ['外资', '内资', '资奖励'];
+    var cySimilaryNameArr =  ['现代医药', '新材料', '高端装备', '数字经济', '亩产', '半导体','产业引导基金','土地', '准入','促进', '产业'];
+
+
     var prefix = ctx + "law";
 
     function addTabByChild(url, index, name) {
@@ -77,31 +82,59 @@
     $(function () {
         var bigTypeVal = $("[name=bigType] option:selected").val();
 
+        $.ajax({
+            url: "/law/getKeyWordList",
+            async: false,
+            success:function (d) {
+                $.each(d.data, function (index, item) {
+                    if (item.bigTypeCode == 'rc') {
+                        rcSimilaryNameArr = item.smallType.split(",");
+                    }
+                    if (item.bigTypeCode == 'cx') {
+                        cxSimilaryNameArr = item.smallType.split(",");
+                    }
+                    if (item.bigTypeCode == 'cy') {
+                        cySimilaryNameArr = item.smallType.split(",");
+                    }
+                })
+            }
+        })
+
+
+
         var optionStr = "";
-        $.each(datas, function (index, item) {
-            if (bigTypeVal == 'rc' && item.dictSort <= 8) {
-                if (types == item.dictValue) {
-                    optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
-                } else {
-                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
-                }
+
+            if (bigTypeVal == 'rc') {
+                $.each(rcSimilaryNameArr, function (index, item) {
+                    if (types == item) {
+                        optionStr += "<option value='"+item+"' selected>"+item+"</option>";
+                    } else {
+                        optionStr += "<option value='"+item+"'>"+item+"</option>";
+                    }
+                })
+
+
 
             }
-            if (bigTypeVal == 'cx' && item.dictSort <= 11 && item.dictSort >= 9) {
-                if (types == item.dictValue) {
-                    optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
-                } else {
-                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
-                }
+            if (bigTypeVal == 'cx') {
+                $.each(cxSimilaryNameArr, function (index, item) {
+                    if (types == item) {
+                        optionStr += "<option value='"+item+"' selected>"+item+"</option>";
+                    } else {
+                        optionStr += "<option value='"+item+"'>"+item+"</option>";
+                    }
+                })
             }
-            if (bigTypeVal == 'cy' && item.dictSort <= 22 && item.dictSort >= 12) {
-                if (types == item.dictValue) {
-                    optionStr += "<option value='"+item.dictValue+"' selected>"+item.dictLabel+"</option>";
-                } else {
-                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
-                }
+            if (bigTypeVal == 'cy') {
+                $.each(cySimilaryNameArr, function (index, item) {
+                    if (types == item) {
+                        optionStr += "<option value='"+item+"' selected>"+item+"</option>";
+                    } else {
+                        optionStr += "<option value='"+item+"'>"+item+"</option>";
+                    }
+                })
             }
-        });
+
         $("#typess").html(optionStr)
 
 
@@ -141,11 +174,11 @@
                         return str;
                     }
                 },
-                {
-                    field: 'similarity',
-                    title: '相似度',
-                    align: 'center'
-                },
+                // {
+                //     field: 'similarity',
+                //     title: '相似度',
+                //     align: 'center'
+                // },
                 {
                     field: 'publishDate',
                     title: '发布时间'
@@ -168,7 +201,7 @@
                     areaName: $('[name=areaName]').val(),
                     bigType: $('[name=bigType]').val(),
                     type: $('[name=type]').val(),
-                    orderBy: $('[name=orderBy]').val(),
+                    // orderBy: $('[name=orderBy]').val(),
                     startDate: $('[name=startDate]').val(),
                     endDate: $('[name=endDate]').val()
                 };
@@ -182,19 +215,37 @@
         var bigTypeVal = $("[name=bigType] option:selected").val();
 
         var optionStr = "";
-        $.each(datas, function (index, item) {
-            if (bigTypeVal == 'rc' && item.dictSort <= 8) {
 
-                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
+        if (bigTypeVal == 'rc') {
+            $.each(rcSimilaryNameArr, function (index, item) {
+                if (types == item) {
+                    optionStr += "<option value='"+item+"' selected>"+item+"</option>";
+                } else {
+                    optionStr += "<option value='"+item+"'>"+item+"</option>";
+                }
+            })
 
-            }
-            if (bigTypeVal == 'cx' && item.dictSort <= 11 && item.dictSort >= 9) {
-                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
-            }
-            if (bigTypeVal == 'cy' && item.dictSort <= 22 && item.dictSort >= 12) {
-                    optionStr += "<option value='"+item.dictValue+"'>"+item.dictLabel+"</option>";
-            }
-        });
+
+
+        }
+        if (bigTypeVal == 'cx') {
+            $.each(cxSimilaryNameArr, function (index, item) {
+                if (types == item) {
+                    optionStr += "<option value='"+item+"' selected>"+item+"</option>";
+                } else {
+                    optionStr += "<option value='"+item+"'>"+item+"</option>";
+                }
+            })
+        }
+        if (bigTypeVal == 'cy') {
+            $.each(cySimilaryNameArr, function (index, item) {
+                if (types == item) {
+                    optionStr += "<option value='"+item+"' selected>"+item+"</option>";
+                } else {
+                    optionStr += "<option value='"+item+"'>"+item+"</option>";
+                }
+            })
+        }
         $("#typess").html(optionStr)
     }
 </script>

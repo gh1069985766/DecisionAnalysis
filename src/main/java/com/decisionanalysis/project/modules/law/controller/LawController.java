@@ -1,8 +1,11 @@
 package com.decisionanalysis.project.modules.law.controller;
 
 import ch.qos.logback.classic.db.names.TableName;
+import com.alibaba.fastjson.JSONObject;
 import com.decisionanalysis.framework.web.controller.BaseController;
 import com.decisionanalysis.framework.web.page.TableDataInfo;
+import com.decisionanalysis.project.modules.keyWord.entity.KeyWordEntity;
+import com.decisionanalysis.project.modules.keyWord.service.IKeyWordService;
 import com.decisionanalysis.project.modules.law.entity.*;
 import com.decisionanalysis.project.modules.law.service.ILawService;
 import org.apache.commons.collections4.Put;
@@ -32,8 +35,11 @@ public class LawController extends BaseController {
     @Autowired
     private ILawService lawService;
 
+    @Autowired
+    private IKeyWordService keyWordService;
+
     @RequestMapping(value = "toList")
-    public String toList(@RequestParam(value = "type",required = false) String type,
+    public String toList(@RequestParam(value = "type", required = false) String type,
                          @RequestParam(value = "bigType", required = false) String bigType,
                          Model model) {
         model.addAttribute("type", type);
@@ -45,16 +51,17 @@ public class LawController extends BaseController {
     /**
      * 现在已经改为配置式
      * 具体类型在 各个enum中
-     * @param areaName 区域
-     * @param title 标题
-     * @param keyWords 关键词
-     * @param rank 区级文件，区府文件 等政策文件范围
-     * @param bigType 大类（人才， 创新， 产业）
-     * @param type  人才：创业扶持、办公补贴、生活津贴、人才招聘、薪金补助
-     * 科技创新：研发补助
-     * 产业：工业、服务业、高端制造、税收、地价、租金
+     *
+     * @param areaName  区域
+     * @param title     标题
+     * @param keyWords  关键词
+     * @param rank      区级文件，区府文件 等政策文件范围
+     * @param bigType   大类（人才， 创新， 产业）
+     * @param type      人才：创业扶持、办公补贴、生活津贴、人才招聘、薪金补助
+     *                  科技创新：研发补助
+     *                  产业：工业、服务业、高端制造、税收、地价、租金
      * @param startDate 开始时间
-     * @param endDate 结束时间
+     * @param endDate   结束时间
      * @return
      */
     @ResponseBody
@@ -67,7 +74,7 @@ public class LawController extends BaseController {
                               @RequestParam(value = "type", required = false) String type,
                               @RequestParam(value = "startDate", required = false) String startDate,
                               @RequestParam(value = "endDate", required = false) String endDate,
-                              @RequestParam(value = "orderBy", required = false)String orderBy) {
+                              @RequestParam(value = "orderBy", required = false) String orderBy) {
         startPage();
         Map map = new HashMap(8);
         map.put("areaName", areaName);
@@ -86,28 +93,29 @@ public class LawController extends BaseController {
 
     /**
      * 首页分类
-     * @param keyColumn 关键字字段
-     * @param similarityColumn 相似度字段
-     * @param tableName 表名
+     *
+     * @param keyColumn      关键字字段
+     * @param similarityName 相似度字段
+     * @param tableName      表名
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/selectLawListByDynamic")
     public TableDataInfo selectLawListByDynamic(@RequestParam(value = "keyColumn") String keyColumn,
-                                                @RequestParam(value = "similarityColumn") String similarityColumn,
+                                                @RequestParam(value = "similarityName") String similarityName,
                                                 @RequestParam(value = "tableName") String tableName) {
 //        startPage();
         String tableNameValue = LawTableEnum.getTableNameForQuery(tableName);
         String keyColumnValue = LawKeyWordsEnum.getKeyWordsNameForQuery(keyColumn);
-        String similarityColumnValue = LawSimilarityColumnEnum.getSimilarityColumnNameForQuery(similarityColumn);
+//        String similarityColumnValue = LawSimilarityColumnEnum.getSimilarityColumnNameForQuery(similarityName);
         String orderByType = "date";
         Map map = new HashMap();
         map.put("keyColumn", keyColumnValue);
-        map.put("similarityColumn", similarityColumnValue);
+        map.put("similarityName", similarityName);
         map.put("tableName", tableNameValue);
         map.put("orderByType", orderByType);
         List<LawEntity> lawEntityList = new ArrayList<>();
-        if (tableNameValue != null && keyColumnValue != null && similarityColumnValue != null) {
+        if (tableNameValue != null && keyColumnValue != null && similarityName != null) {
             lawEntityList = lawService.selectLawListByDynamic(map);
         }
         return getDataTable(lawEntityList);
@@ -117,14 +125,15 @@ public class LawController extends BaseController {
 
     /**
      * 所有列表
-     * @param region 区域
-     * @param title 标题
-     * @param rank 文件类型
-     * @param bigType 大类
-     * @param type 小类
+     *
+     * @param region    区域
+     * @param title     标题
+     * @param rank      文件类型
+     * @param bigType   大类
+     * @param type      小类
      * @param startDate 发布开始日期
-     * @param endDate 发布结束日期
-     * @param orderBy 排序字段
+     * @param endDate   发布结束日期
+     * @param orderBy   排序字段
      * @param pageSize
      * @param pageNum
      * @return
@@ -138,7 +147,7 @@ public class LawController extends BaseController {
                                         @RequestParam(value = "type", required = false) String type,
                                         @RequestParam(value = "startDate", required = false) String startDate,
                                         @RequestParam(value = "endDate", required = false) String endDate,
-                                        @RequestParam(value = "orderBy", required = false)String orderBy,
+                                        @RequestParam(value = "orderBy", required = false) String orderBy,
                                         @RequestParam(value = "pageSize") int pageSize,
                                         @RequestParam(value = "pageNum") int pageNum) {
         int pageStart = pageSize * (pageNum - 1);
@@ -151,26 +160,24 @@ public class LawController extends BaseController {
         if (title.isEmpty()) {
             map.put("title", null);
         } else {
-            map.put("title", "'"+title+"'");
+            map.put("title", "'" + title + "'");
         }
         if (startDate.isEmpty()) {
             map.put("startDate", null);
         } else {
-            map.put("startDate", "'"+startDate+"'");
+            map.put("startDate", "'" + startDate + "'");
         }
 
         if (endDate.isEmpty()) {
             map.put("endDate", null);
         } else {
-            map.put("endDate", "'"+endDate+"'");
+            map.put("endDate", "'" + endDate + "'");
         }
 
         map.put("type", bigType);
-        if (type == null) {
-            map.put("similarityColumn", null);
-        } else {
-            map.put("similarityColumn", LawSimilarityColumnEnum.getSimilarityColumnNameForQuery(type));
-        }
+
+        map.put("similarityColumn", type);
+
 
         map.put("orderByType", orderBy);
         map.put("pageStart", pageStart);
@@ -190,7 +197,7 @@ public class LawController extends BaseController {
 
         model.addAttribute("title", map.get("title"));
         model.addAttribute("keyWords", map.get("keyWords"));
-        model.addAttribute("body", getBodyStr(map.get("body_path")) + "<a target='view_window' href='"+map.get("url")+"'>------------原文件地址--------------</a>");
+        model.addAttribute("body", getBodyStr(map.get("body_path")) + "<a target='view_window' href='" + map.get("url") + "'>------------原文件地址--------------</a>");
 //        model.addAttribute("body", getBodyStr("F:/test/t20170112_1074479.html"));
         return "modules/law/showContent";
     }
@@ -202,7 +209,7 @@ public class LawController extends BaseController {
         try {
             buffer = new StringBuffer();
             fis = new FileInputStream(filePath);
-            reader = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
+            reader = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
             String line = null;
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
@@ -226,5 +233,19 @@ public class LawController extends BaseController {
         }
 
         return buffer.toString();
+    }
+
+
+    /**
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getKeyWordList")
+    public JSONObject getKeyWordList() {
+        List<KeyWordEntity> list = keyWordService.selectKeyWordListByCondition(new HashMap());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", list);
+
+        return jsonObject;
     }
 }

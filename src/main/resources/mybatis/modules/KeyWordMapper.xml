@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.decisionanalysis.project.modules.keyWord.mapper.KeyWordMapper">
+
+    <resultMap type="KeyWordEntity" id="keyWord">
+        <id property="id" column="id"/>
+        <result property="bigType" column="big_type"/>
+        <result property="bigTypeCode" column="big_type_code"/>
+        <result property="smallType" column="small_type"/>
+        <result property="history" column="history"/>
+    </resultMap>
+
+
+    <select id="selectKeyWordListByCondition" parameterType="Map" resultMap="keyWord">
+       select a.id, a.big_type , a.big_type_code, a.small_type, a.history from  key_word a
+       where a.history = '1'
+    </select>
+
+    <insert id="insertKeyWord">
+        insert into key_word (big_type,big_type_code,small_type,history,CREATED_BY,CREATED_TIME ) values
+        (
+        #{bigType},
+        #{bigTypeCode},
+        #{smallType},
+        '1',
+        #{createdBy},
+        now()
+        )
+
+    </insert>
+
+
+    <update id="deleteKeyWordHistory">
+        update key_word set history = '0'
+    </update>
+
+
+</mapper>

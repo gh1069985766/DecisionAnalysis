@@ -22,7 +22,6 @@
         <result property="rcKeyWords" column="rc_key_words"/>
         <result property="cxKeyWords" column="cx_key_words"/>
         <result property="cyKeyWords" column="cy_key_words"/>
-        <result property="similarity" column="similarity"/>
         <result property="rank" column="rank"/>
     </resultMap>
 
@@ -232,19 +231,15 @@
         SELECT
         b.${keyColumn} as 'keyWords'
         ,b.title
-        ,a.region
+        ,b.region
         ,b.rank
         ,b.publish_date
-        ,a.${similarityColumn} as 'similarity'
         ,b.id
-        FROM ${tableName} a
-        left join policy_dd b on a.file_id = b.id
-        where a.${similarityColumn} > 0
+        FROM
+         policy_dd b
+        where b.${keyColumn} like concat('%', '${similarityName}', '%')
         <if test="orderByType == 'date' or orderByType == '' or orderByType == null">
             order by b.publish_date desc
-        </if>
-        <if test="orderByType == 'similarity'">
-            order by a.${similarityColumn} desc
         </if>
         limit 6
     </select>
@@ -260,18 +255,6 @@ select tt.* from (
         ,a.rc_key_words
         ,a.rank
         ,a.publish_date
-        <if test="type == 'rc'">
-            ,rc.${similarityColumn} as 'similarity'
-        </if>
-        <if test="type == 'cx'">
-            ,cx.${similarityColumn} as 'similarity'
-        </if>
-        <if test="type == 'cy'">
-            ,cy.${similarityColumn} as 'similarity'
-        </if>
-        <if test="type == '' or type == null">
-            ,0.0 as 'similarity'
-        </if>
 
         FROM policy_dd a
         LEFT JOIN cx_feature_dict_dd cx ON a.id = cx.file_id
@@ -279,13 +262,13 @@ select tt.* from (
         LEFT JOIN rc_feature_dict_dd rc ON a.id = rc.file_id
         where 1=1
         <if test="type == 'rc'">
-            and rc.${similarityColumn} > 0
+            and a.rc_key_words like concat('%', '${similarityColumn}', '%')
         </if>
         <if test="type == 'cx'">
-            and cx.${similarityColumn} > 0
+            and a.cx_key_words like concat('%', '${similarityColumn}', '%')
         </if>
         <if test="type == 'cy'">
-            and cy.${similarityColumn} > 0
+            and a.cy_key_words like concat('%', '${similarityColumn}', '%')
         </if>
         <if test="region != null and region != ''">
             and a.region like concat('%',${region},'%')
@@ -303,9 +286,7 @@ select tt.* from (
         <if test="orderByType == 'date' or orderByType == '' or orderByType == null">
             order by tt.publish_date desc
         </if>
-        <if test="orderByType == 'similarity'">
-            order by tt.similarity desc
-        </if>
+
         Limit ${pageStart}, ${pageSize}
     </select>
 
@@ -320,18 +301,7 @@ select tt.* from (
         ,a.rc_key_words
         ,a.rank
         ,a.publish_date
-        <if test="type == 'rc'">
-            ,rc.${similarityColumn} as 'similarity'
-        </if>
-        <if test="type == 'cx'">
-            ,cx.${similarityColumn} as 'similarity'
-        </if>
-        <if test="type == 'cy'">
-            ,cy.${similarityColumn} as 'similarity'
-        </if>
-        <if test="type == '' or type == null">
-            ,0.0 as 'similarity'
-        </if>
+
 
         FROM policy_dd a
         LEFT JOIN cx_feature_dict_dd cx ON a.id = cx.file_id
@@ -339,13 +309,13 @@ select tt.* from (
         LEFT JOIN rc_feature_dict_dd rc ON a.id = rc.file_id
         where 1=1
         <if test="type == 'rc'">
-            and rc.${similarityColumn} > 0
+            and a.rc_key_words like concat('%', '${similarityColumn}', '%')
         </if>
         <if test="type == 'cx'">
-            and cx.${similarityColumn} > 0
+            and a.cx_key_words like concat('%', '${similarityColumn}', '%')
         </if>
         <if test="type == 'cy'">
-            and cy.${similarityColumn} > 0
+            and a.cy_key_words like concat('%', '${similarityColumn}', '%')
         </if>
         <if test="region != null and region != ''">
             and a.region like concat('%',${region},'%')
@@ -363,9 +333,7 @@ select tt.* from (
         <if test="orderByType == 'date' or orderByType == '' or orderByType == null">
             order by tt.publish_date desc
         </if>
-        <if test="orderByType == 'similarity'">
-            order by tt.similarity desc
-        </if>
+
     </select>
 
 </mapper>
